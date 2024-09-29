@@ -10,10 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import os
 from os import path
 from pathlib import Path
 
-from django.conf.global_settings import PASSWORD_HASHERS
 from environ import Env
 
 env = Env()
@@ -150,3 +150,23 @@ PASSWORD_HASHERS = [
 SITE_ID = 1
 
 CORS_URLS_REGEX = r"^/api/.*$"
+
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "%(levelname)s %(name)-12s %(asctime)s %(module)s "
+            "%(process)d %(thread)d %(message)s"
+        }
+    },
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        }
+    },
+    "root": {"level": "INFO", "handler": ["console"]},
+}
