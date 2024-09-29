@@ -11,7 +11,7 @@ services:
     networks:
       - authors_haven_network
   api:
-    container_name: "authors_haven_api"
+    container_name: "api"
     build:
       context: .
       dockerfile: ./docker/local/django/Dockerfile
