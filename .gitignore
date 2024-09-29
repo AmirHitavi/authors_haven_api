@@ -176,3 +176,6 @@ cython_debug/
 
 .idea/
 .vscode/
+
+.envs/*
+!.envs/.local/

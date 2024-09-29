@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+  postgres:
+    container_name: "postgres"
+    image: "postgres:15"
+    env_file:
+      - .envs/.local/.postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - authors_haven_network
+  api:
+    container_name: "authors_haven_api"
+    build:
+      context: .
+      dockerfile: ./docker/local/django/Dockerfile
+    env_file:
+      - .envs/.local/.postgres
+      - .envs/.local/.django
+    volumes:
+      - .:/app:z
+      - static_volume:/app/static
+      - media_volume:/app/media
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    command: /start.sh
+    networks:
+      - authors_haven_network
+
+networks:
+  authors_haven_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
