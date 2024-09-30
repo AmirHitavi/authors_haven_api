@@ -37,7 +37,16 @@ THIRD_PARTY_APPS = [
     "taggit",
 ]
 
-LOCAL_APPS = []
+LOCAL_APPS = [
+    "core_apps.articles.apps.ArticlesConfig",
+    "core_apps.bookmarks.apps.BookmarksConfig",
+    "core_apps.common.apps.CommonConfig",
+    "core_apps.profiles.apps.ProfilesConfig",
+    "core_apps.ratings.apps.RatingsConfig",
+    "core_apps.responses.apps.ResponsesConfig",
+    "core_apps.search.apps.SearchConfig",
+    "core_apps.users.apps.UsersConfig"
+]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
