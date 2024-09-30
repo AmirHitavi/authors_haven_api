@@ -45,3 +45,9 @@ isort:
 
 shell:
 	sudo docker-compose -f local.docker-compose.yaml exec api /bin/bash
+
+backup:
+	sudo docker-compose -f local.docker-compose.yaml exec postgres backup
+
+backups:
+	sudo docker-compose -f local.docker-compose.yaml exec postgres backups
