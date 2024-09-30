@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from os import path
 from pathlib import Path
 
+from django.conf.global_settings import AUTH_USER_MODEL
 from environ import Env
 
 env = Env()
@@ -45,7 +46,7 @@ LOCAL_APPS = [
     "core_apps.ratings.apps.RatingsConfig",
     "core_apps.responses.apps.ResponsesConfig",
     "core_apps.search.apps.SearchConfig",
-    "core_apps.users.apps.UsersConfig"
+    "core_apps.users.apps.UsersConfig",
 ]
 
 INSTALLED_APPS = [
@@ -180,3 +181,5 @@ LOGGING = {
     },
     "root": {"level": "INFO", "handler": ["console"]},
 }
+
+AUTH_USER_MODEL = "users.User"
