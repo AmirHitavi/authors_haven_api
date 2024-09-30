@@ -49,6 +49,14 @@ COPY ./docker/local/django/start.sh /start.sh
 RUN sed -i 's/\r$//g' /start.sh
 RUN chmod +x /start.sh
 
+COPY ./docker/local/django/celery/worker/start.sh /start_worker.sh
+RUN sed -i 's/\r$//g' /start_worker.sh
+RUN chmod +x /start_worker.sh
+
+COPY ./docker/local/django/celery/flower/start.sh /start_flower.sh
+RUN sed -i 's/\r$//g' /start_flower.sh
+RUN chmod +x /start_flower.sh
+
 COPY . ${APP_HOME}
 
 ENTRYPOINT ["/entrypoint.sh"]

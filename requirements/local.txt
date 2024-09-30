@@ -4,3 +4,5 @@ psycopg2-binary==2.9.9
 flake8==7.1.1
 black==24.8.0
 isort==5.13.2
+
+watchfiles==0.24.0

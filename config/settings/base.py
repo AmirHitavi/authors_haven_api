@@ -36,6 +36,7 @@ THIRD_PARTY_APPS = [
     "django_countries",
     "phonenumber_field",
     "taggit",
+    "djcelery_email",
 ]
 
 LOCAL_APPS = [
@@ -160,6 +161,8 @@ PASSWORD_HASHERS = [
 
 SITE_ID = 1
 
+SITE_NAME = "Authors Haven"
+
 CORS_URLS_REGEX = r"^/api/.*$"
 
 
@@ -183,3 +186,15 @@ LOGGING = {
 }
 
 AUTH_USER_MODEL = "users.User"
+
+
+CELERY_BROKER_URL = env("CELERY_BROKER_URL")
+CELERY_RESULT_BACKEND = env("CELERY_RESULT_BACKEND")
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_RESULT_BACKEND_MAX_RETRIES = 20
+CELERY_TASK_SEND_SENT_EVENT = True
+
+if USE_TZ:
+    CELERY_TIME_ZONE = USE_TZ
