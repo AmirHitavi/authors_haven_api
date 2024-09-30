@@ -3,11 +3,14 @@ version: "3.9"
 services:
   postgres:
     container_name: "postgres"
-    image: "postgres:15"
+    build:
+      context: .
+      dockerfile: ./docker/local/postgres/Dockerfile
     env_file:
       - .envs/.local/.postgres
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - local_postgres_data:/var/lib/postgresql/data
+      - local_postgres_backup:/backups
     networks:
       - authors_haven_network
   pgadmin:
@@ -45,6 +48,7 @@ networks:
     driver: bridge
 
 volumes:
-  postgres_data:
+  local_postgres_data:
+  local_postgres_backup:
   static_volume:
   media_volume:
