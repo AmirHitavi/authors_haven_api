@@ -51,3 +51,6 @@ backup:
 
 backups:
 	sudo docker-compose -f local.docker-compose.yaml exec postgres backups
+
+status:
+	sudo docker ps

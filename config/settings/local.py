@@ -8,3 +8,5 @@ SECRET_KEY = env(
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DJANGO_DEBUG", default=True)
+
+CSRF_TRUSTED_ORIGINS = ["http://localhost:8080"]
