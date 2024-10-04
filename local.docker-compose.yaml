@@ -82,7 +82,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/local/django/Dockerfile
-    command: ./start_worker.sh
+    command: /start_worker.sh
     volumes:
       - .:/app
     env_file:
@@ -100,7 +100,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/local/django/Dockerfile
-    command: ./start_flower.sh
+    command: /start_flower.sh
     ports:
       - "5555:5555"
     volumes:

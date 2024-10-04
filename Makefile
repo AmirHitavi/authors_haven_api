@@ -16,6 +16,9 @@ api_logs:
 db_logs:
 	sudo docker-compose -f local.docker-compose.yaml logs postgres
 
+worker_logs:
+	sudo docker-compose -f local.docker-compose.yaml logs worker
+
 makemigrations:
 	sudo docker-compose -f local.docker-compose.yaml run --rm api python manage.py makemigrations --no-input
 	
