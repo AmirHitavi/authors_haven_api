@@ -21,17 +21,21 @@ services:
       - local_postgres_backup:/backups
     networks:
       - authors_haven_network
+    restart: unless-stopped
 
   pgadmin:
     container_name: pgadmin4
     image: dpage/pgadmin4
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: password
+      PGADMIN_DEFAULT_PASSWORD: 'pg_pass'
+    depends_on:
+      - postgres
     ports:
-      - "5050:5050"
+      - "5050:80"
     networks:
       - authors_haven_network
+    restart: unless-stopped
 
   api:
     container_name: "api"
@@ -65,7 +69,7 @@ services:
       - static_volume:/app/static
       - media_volume:/app/media
     ports:
-      - "8080:80"
+      - "8080:8080"
     depends_on:
       - api
     networks:
