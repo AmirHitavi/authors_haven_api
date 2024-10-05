@@ -14,7 +14,6 @@ from datetime import timedelta
 from os import path
 from pathlib import Path
 
-from drf_spectacular.views import SpectacularSwaggerView
 from environ import Env
 
 env = Env()
@@ -44,7 +43,6 @@ THIRD_PARTY_APPS = [
     "allauth.socialaccount",
     "dj_rest_auth",
     "dj_rest_auth.registration",
-    "drf_spectacular",
 ]
 
 LOCAL_APPS = [
@@ -218,7 +216,6 @@ REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": [
         "django_filters.rest_framework.backends.DjangoFilterBackend"
     ],
-    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 AUTHENTICATION_BACKENDS = [
@@ -250,14 +247,4 @@ REST_AUTH = {
     "JWT_AUTH_COOKIE": "authors-access-token",
     "JWT_AUTH_REFRESH_COOKIE": "authors-refresh-token",
     "REGISTER_SERIALIZER": "core_apps.users.serializers.CustomRegistrationSerializer",
-}
-
-SPECTACULAR_SETTINGS = {
-    "TITLE": "Authors haven API",
-    "DESCRIPTION": "Authors haven API description",
-    "VERSION": "1.0.0",
-    "SERVE_INCLUDE_SCHEMA": False,
-    "SWAGGER_UI_SETTINGS": {
-        "persistAuthorization": True,
-    },
 }

@@ -18,8 +18,6 @@ from xml.etree.ElementInclude import include
 
 from django.contrib import admin
 from django.urls import include, path
-from drf_spectacular.views import (SpectacularAPIView, SpectacularRedocView,
-                                   SpectacularSwaggerView)
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
@@ -48,28 +46,25 @@ urlpatterns = [
                         include(
                             [
                                 path(
-                                    "",
-                                    SpectacularAPIView.as_view(),
-                                    name="schema-spectacular",
+                                    "swagger<format>/",
+                                    schema_view.without_ui(cache_timeout=0),
+                                    name="schema-json",
                                 ),
                                 path(
                                     "swagger/",
-                                    SpectacularSwaggerView.as_view(
-                                        url_name="schema-spectacular"
-                                    ),
+                                    schema_view.with_ui("swagger", cache_timeout=0),
                                     name="schema-swagger-ui",
                                 ),
                                 path(
                                     "redoc/",
-                                    SpectacularRedocView.as_view(
-                                        url_name="schema-spectacular"
-                                    ),
+                                    schema_view.with_ui("redoc", cache_timeout=0),
                                     name="schema-redoc",
                                 ),
                             ]
                         ),
                     ),
                     path("", include("core_apps.users.urls")),
+                    path("profiles/", include("core_apps.profiles.urls")),
                 ]
             )
         ),
