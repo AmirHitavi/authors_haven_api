@@ -257,7 +257,7 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "Authors haven API description",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
-    'SWAGGER_UI_SETTINGS': {
-        'persistAuthorization': True,
+    "SWAGGER_UI_SETTINGS": {
+        "persistAuthorization": True,
     },
 }
