@@ -37,7 +37,8 @@ THIRD_PARTY_APPS = [
     "phonenumber_field",
     "taggit",
     "djcelery_email",
-    "rest_framework.authtoken" "allauth",
+    "rest_framework.authtoken",
+    "allauth",
     "allauth.account",
     "allauth.socialaccount",
     "dj_rest_auth",
@@ -75,7 +76,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "allauth.account.middleware.AuthenticationMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -245,5 +246,5 @@ REST_AUTH = {
     "USE_JWT": True,
     "JWT_AUTH_COOKIE": "authors-access-token",
     "JWT_AUTH_REFRESH_COOKIE": "authors-refresh-token",
-    # "REGISTER_SERIALIZER": "core_apps.users.serializers.CustomRegistrationSerializer"
+    "REGISTER_SERIALIZER": "core_apps.users.serializers.CustomRegistrationSerializer",
 }

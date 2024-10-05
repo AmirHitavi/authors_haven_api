@@ -15,7 +15,6 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.core.cache import cache
 from django.urls import include, path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
@@ -35,21 +34,18 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    # path(
-    #     "swagger<format>/", schema_view.without_ui(cache_timeout=0), name="schema-json"
-    # ),
-    # path(
-    #     "",
-    #     schema_view.with_ui("swagger", cache_timeout=0),
-    #     name="schema-swagger-ui",
-    # ),
     path(
         "api/v1/",
         include(
             (
                 [
                     path(
-                        "",
+                        "swagger<format>/",
+                        schema_view.without_ui(cache_timeout=0),
+                        name="schema-json",
+                    ),
+                    path(
+                        "swager/",
                         schema_view.with_ui("swagger", cache_timeout=0),
                         name="schema-swagger-ui",
                     ),
@@ -58,8 +54,15 @@ urlpatterns = [
                         schema_view.with_ui("redoc", cache_timeout=0),
                         name="schema-redoc",
                     ),
+                    path("", include("core_apps.users.urls")),
                 ]
             )
         ),
     ),
 ]
+
+admin.site.site_header = "Authors Haven API Admin"
+
+admin.site.site_title = "Authors Haven API Admin Portal"
+
+admin.site.index_title = "Welcome to Authors Haven API Portal"

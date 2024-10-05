@@ -1,8 +1,5 @@
-from django.contrib.auth.models import (
-    AbstractBaseUser,
-    BaseUserManager,
-    PermissionsMixin,
-)
+from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager,
+                                        PermissionsMixin)
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.db import models
@@ -44,7 +41,7 @@ class CustomUserManager(BaseUserManager):
         )
         user.set_password(password)
 
-        extra_fields.setdefault("is_active", False)
+        extra_fields.setdefault("is_active", True)
         extra_fields.setdefault("is_staff", False)
         extra_fields.setdefault("is_superuser", False)
 
@@ -97,7 +94,7 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
     last_name = models.CharField(verbose_name=_("last name"), max_length=255)
     email = models.EmailField(verbose_name=_("email"), max_length=255, unique=True)
 
-    is_active = models.BooleanField(verbose_name=_("is active"), default=False)
+    is_active = models.BooleanField(verbose_name=_("is active"), default=True)
     is_staff = models.BooleanField(verbose_name=_("is staff"), default=False)
     is_superuser = models.BooleanField(verbose_name=_("is superuser"), default=False)
 
