@@ -95,12 +95,10 @@ class FollowingAPIView(APIView):
 
 
 class FollowAPIView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request, following_id, format=None):
+    def post(self, request, user_id, format=None):
         try:
             follower_profile = request.user.profile
-            following_profile = Profile.objects.get(user__id=following_id)
+            following_profile = Profile.objects.get(user__id=user_id)
 
             if follower_profile == following_profile:
                 raise CantFollowYourself()
@@ -108,37 +106,33 @@ class FollowAPIView(APIView):
             if follower_profile.check_following(following_profile):
                 raise CantFollowYourFollower()
 
+            # Send email to notify about new follower
             follower_profile.follow(following_profile)
-
-            # Send notification email about new follow
             subject = "A new user follows you"
-            message = f"Hi there, {following_profile.user.first_name}, the user {following_profile.user.full_name} now follows you"
-            recipient_list = [following_profile.user.email]
-            send_mail(
-                subject=subject,
-                message=message,
-                from_email=DEFAULT_FROM_EMAIL,
-                recipient_list=recipient_list,
-                fail_silently=True,
+            message = (
+                f"Hi there, {following_profile.user.first_name}!!, the user {follower_profile.user.first_name}"
+                f" {following_profile.user.last_name} now follows you"
             )
+            from_email = DEFAULT_FROM_EMAIL
+            recipient_list = [following_profile.user.email]
+            send_mail(subject, message, from_email, recipient_list, fail_silently=True)
 
-            formatted_response = {
-                "status_code": status.HTTP_200_OK,
-                "message": f"Now, You're following {following_profile.user.full_name}",
-            }
-
-            return Response(formatted_response, status_code=status.HTTP_200_OK)
+            return Response(
+                {
+                    "status_code": status.HTTP_200_OK,
+                    "message": f"You are now following {following_profile.user.first_name} "
+                    f"{following_profile.user.last_name}",
+                },
+            )
         except Profile.DoesNotExist:
-            return NotFound("You can't follow a profile that does not exist.")
+            raise NotFound("You can't follow a profile that does not exist.")
 
 
 class UnfollowAPIView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request, following_id, format=None):
+    def post(self, request, user_id, format=None):
         try:
             follower_profile = request.user.profile
-            following_profile = Profile.objects.get(user__id=following_id)
+            following_profile = Profile.objects.get(user__id=user_id)
 
             if follower_profile == following_profile:
                 raise CantUnfollowYourself()
@@ -148,23 +142,22 @@ class UnfollowAPIView(APIView):
 
             follower_profile.unfollow(following_profile)
 
-            # Send notification email about new unfollow
-            subject = "A new user unfollows you"
-            message = f"Hi there, {following_profile.user.first_name}, the user {following_profile.user.full_name} now unfollows you"
-            recipient_list = [following_profile.user.email]
-            send_mail(
-                subject=subject,
-                message=message,
-                from_email=DEFAULT_FROM_EMAIL,
-                recipient_list=recipient_list,
-                fail_silently=True,
+            # Send email to notify about new follower
+            subject = "A new user follows you"
+            message = (
+                f"Hi there, {following_profile.user.first_name}!!, the user {follower_profile.user.first_name} "
+                f"{follower_profile.user.last_name} now unfollows you."
             )
+            from_email = DEFAULT_FROM_EMAIL
+            recipient_list = [following_profile.user.email]
+            send_mail(subject, message, from_email, recipient_list, fail_silently=True)
 
             formatted_response = {
                 "status_code": status.HTTP_200_OK,
-                "message": f"You have unfollowed {follower_profile.user.full_name}",
+                "message": f"You have unfollowed {following_profile.user.first_name} "
+                f"{following_profile.user.last_name}.",
             }
-            return Response(formatted_response, status=status.HTTP_200_OK)
+            return Response(formatted_response, status.HTTP_200_OK)
 
         except Profile.DoesNotExist:
-            return NotFound("You can't unfollow a profile that does not exist.")
+            raise NotFound("You can't follow a profile that does not exist.")

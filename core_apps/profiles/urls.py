@@ -18,6 +18,6 @@ urlpatterns = [
             ]
         ),
     ),
-    path("<uuid:following_id>/follow/", FollowAPIView.as_view(), name="follow"),
-    path("<uuid:following_id>/unfollow", UnfollowAPIView.as_view(), name="unfollow"),
+    path("<uuid:user_id>/follow/", FollowAPIView.as_view(), name="follow"),
+    path("<uuid:user_id>/unfollow/", UnfollowAPIView.as_view(), name="unfollow"),
 ]
