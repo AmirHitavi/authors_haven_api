@@ -36,6 +36,17 @@ class Article(BaseModel):
     def article_views_count(self):
         return self.article_views.count()
 
+    def average_rating(self):
+        ratings = self.ratings.all()
+
+        if ratings.count() > 0:
+            total_ratings = sum([rating.rating for rating in ratings])
+            average_rating = total_ratings / ratings.count()
+            return round(average_rating, 2)
+        average_rating = None
+
+        return average_rating
+
 
 class ArticleView(BaseModel):
     user = models.ForeignKey(

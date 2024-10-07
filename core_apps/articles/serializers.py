@@ -27,6 +27,7 @@ class ArticleSerializer(serializers.ModelSerializer):
     estimated_reading_time = serializers.ReadOnlyField()
     tags = TagListField()
     views = serializers.SerializerMethodField()
+    average_rating = serializers.ReadOnlyField()
     created_at = serializers.SerializerMethodField()
     updated_at = serializers.SerializerMethodField()
 
@@ -35,6 +36,9 @@ class ArticleSerializer(serializers.ModelSerializer):
 
     def get_views(self, obj):
         return ArticleView.objects.filter(article=obj).count()
+
+    def get_average_rating(self, obj):
+        return obj.average_rating()
 
     def get_created_at(self, obj):
         now = obj.created_at
@@ -51,6 +55,7 @@ class ArticleSerializer(serializers.ModelSerializer):
             "title",
             "slug",
             "estimated_reading_time",
+            "average_rating",
             "body",
             "description",
             "author_info",

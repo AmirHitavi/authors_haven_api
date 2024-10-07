@@ -66,6 +66,7 @@ urlpatterns = [
                     path("", include("core_apps.users.urls")),
                     path("profiles/", include("core_apps.profiles.urls")),
                     path("articles/", include("core_apps.articles.urls")),
+                    path("ratings/", include("core_apps.ratings.urls")),
                 ]
             )
         ),
