@@ -13,6 +13,22 @@ User = get_user_model()
 # Create your models here.
 
 
+class Clap(BaseModel):
+    article = models.ForeignKey(
+        "Article", on_delete=models.CASCADE, related_name="claps"
+    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="clap")
+
+    class Meta:
+        verbose_name = _("Clap")
+        verbose_name_plural = _("Claps")
+        unique_together = ("article", "user")
+        ordering = ("-created_at", "-updated_at")
+
+    def __str__(self):
+        return f"{self.user.first_name.title()} {self.user.last_name.title()} clapped {self.article.title}"
+
+
 class Article(BaseModel):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="articles")
     title = models.CharField(verbose_name=_("article title"), max_length=255)
@@ -25,6 +41,8 @@ class Article(BaseModel):
         verbose_name=_("article banner image"), default="./default_banner.png"
     )
     tags = TaggableManager()
+
+    clap = models.ManyToManyField(User, through=Clap, related_name="clapped_articles")
 
     def __str__(self):
         return f"{self.title} Article"

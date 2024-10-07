@@ -5,7 +5,7 @@ from core_apps.bookmarks.models import Bookmark
 from core_apps.bookmarks.serializers import BookmarkSerializer
 from core_apps.profiles.serializers import ProfileSerializer
 
-from .models import Article, ArticleView
+from .models import Article, ArticleView, Clap
 
 
 class TagListField(serializers.Field):
@@ -32,6 +32,7 @@ class ArticleSerializer(serializers.ModelSerializer):
     average_rating = serializers.ReadOnlyField()
     bookmarks = serializers.SerializerMethodField()
     bookmarks_count = serializers.SerializerMethodField()
+    claps_count = serializers.SerializerMethodField()
     created_at = serializers.SerializerMethodField()
     updated_at = serializers.SerializerMethodField()
 
@@ -51,6 +52,9 @@ class ArticleSerializer(serializers.ModelSerializer):
     def get_bookmarks_count(self, obj):
         return Bookmark.objects.filter(article=obj).count()
 
+    def get_claps_count(self, obj):
+        return obj.claps.count()
+
     def get_created_at(self, obj):
         now = obj.created_at
         return now.strftime("%Y-%m-%d: %H:%M:%S")
@@ -69,6 +73,7 @@ class ArticleSerializer(serializers.ModelSerializer):
             "average_rating",
             "bookmarks",
             "bookmarks_count",
+            "claps_count",
             "body",
             "description",
             "author_info",
@@ -101,3 +106,15 @@ class ArticleSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
+
+
+class ClapSerializer(serializers.ModelSerializer):
+    user_fullname = serializers.SerializerMethodField(read_only=True)
+    article_title = serializers.CharField(source="article.title", read_only=True)
+
+    class Meta:
+        model = Clap
+        fields = ["id", "user_fullname", "article_title"]
+
+    def get_user_fullname(self, obj):
+        return f"{obj.user.first_name.title()} {obj.user.last_name.title()}"

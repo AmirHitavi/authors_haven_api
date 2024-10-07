@@ -1,15 +1,9 @@
 from django.urls import include, path
 
 from .serializers import FollowingSerializer
-from .views import (
-    FollowAPIView,
-    FollowerListAPIView,
-    FollowingAPIView,
-    ProfileDetailsAPIView,
-    ProfileListAPIView,
-    UnfollowAPIView,
-    UpdateProfileAPIView,
-)
+from .views import (FollowAPIView, FollowerListAPIView, FollowingAPIView,
+                    ProfileDetailsAPIView, ProfileListAPIView, UnfollowAPIView,
+                    UpdateProfileAPIView)
 
 urlpatterns = [
     path("all/", ProfileListAPIView.as_view(), name="all-profiles"),

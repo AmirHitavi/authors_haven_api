@@ -1,16 +1,18 @@
 from django.core.files.storage import default_storage
 from django.http import Http404
+from django.shortcuts import get_object_or_404
 from django_filters.rest_framework.backends import DjangoFilterBackend
 from rest_framework import filters, generics, permissions, status
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.response import Response
 
+from .exceptions import YouAlreadyClapped
 from .filters import ArticleFilter
-from .models import Article, ArticleView
+from .models import Article, ArticleView, Clap
 from .pagination import ArticlePagination
 from .permissions import IsAuthorOrReadOnly
 from .renderers import ArticleJSONRenderer, ArticlesJSONRenderer
-from .serializers import ArticleSerializer
+from .serializers import ArticleSerializer, ClapSerializer
 
 # Create your views here.
 
@@ -60,3 +62,44 @@ class ArticleRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView)
         ArticleView.record(viewer_ip=viewer_ip, article=instance, user=request.user)
 
         return Response(serializer.data)
+
+
+class ClapCreateDestroyAPIView(generics.CreateAPIView, generics.DestroyAPIView):
+    queryset = Clap.objects.all()
+    serializer_class = ClapSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        user = request.user
+        article_id = kwargs.get("article_id")
+        article = get_object_or_404(Article, id=article_id)
+
+        if Clap.objects.filter(article=article, user=user).exists():
+            raise YouAlreadyClapped()
+
+        clap = Clap.objects.create(article=article, user=user)
+        clap.save()
+
+        return Response(
+            {
+                "status_code": status.HTTP_201_CREATED,
+                "detail": "clap added to article.",
+            },
+            status=status.HTTP_201_CREATED,
+        )
+
+    def delete(self, request, *args, **kwargs):
+        user = request.user
+        article_id = kwargs.get("article_id")
+        article = get_object_or_404(Article, id=article_id)
+
+        clap = get_object_or_404(Clap, article=article, user=user)
+        clap.delete()
+
+        return Response(
+            {
+                "status_code": status.HTTP_204_NO_CONTENT,
+                "detail": "clap deleted from article.",
+            },
+            status=status.HTTP_204_NO_CONTENT,
+        )
