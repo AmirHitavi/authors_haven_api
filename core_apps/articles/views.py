@@ -1,5 +1,3 @@
-from http.client import responses
-
 from django.core.files.storage import default_storage
 from django.http import Http404
 from django_filters.rest_framework.backends import DjangoFilterBackend

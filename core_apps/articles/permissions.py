@@ -1,5 +1,4 @@
 from rest_framework import permissions
-from urllib3 import request
 
 
 class IsAuthorOrReadOnly(permissions.BasePermission):

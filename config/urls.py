@@ -67,6 +67,7 @@ urlpatterns = [
                     path("profiles/", include("core_apps.profiles.urls")),
                     path("articles/", include("core_apps.articles.urls")),
                     path("ratings/", include("core_apps.ratings.urls")),
+                    path("bookmarks/", include("core_apps.bookmarks.urls")),
                 ]
             )
         ),

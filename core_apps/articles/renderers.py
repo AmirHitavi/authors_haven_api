@@ -1,7 +1,5 @@
 import json
 
-from celery.bin.logtool import errors
-from django.shortcuts import render
 from rest_framework.renderers import JSONRenderer
 
 
