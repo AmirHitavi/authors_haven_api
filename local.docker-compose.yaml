@@ -29,10 +29,12 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: 'pg_pass'
+      PGADMIN_LISTEN_PORT: 5050
+
     depends_on:
       - postgres
     ports:
-      - "5050:80"
+      - "5050:5050"
     networks:
       - authors_haven_network
     restart: unless-stopped
@@ -69,7 +71,7 @@ services:
       - static_volume:/app/static
       - media_volume:/app/media
     ports:
-      - "8080:8080"
+      - "8080:80"
     depends_on:
       - api
     networks:
