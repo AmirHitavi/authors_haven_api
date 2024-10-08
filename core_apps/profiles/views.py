@@ -9,13 +9,16 @@ from rest_framework.views import APIView
 
 from config.settings.local import DEFAULT_FROM_EMAIL
 
-from .exceptions import (CantFollowYourFollower, CantFollowYourself,
-                         CantUnfollowNotYourFollower, CantUnfollowYourself)
+from .exceptions import (
+    CantFollowYourFollower,
+    CantFollowYourself,
+    CantUnfollowNotYourFollower,
+    CantUnfollowYourself,
+)
 from .models import Profile
 from .pagination import ProfilePagination
 from .renderers import ProfileJSONRenderer, ProfilesJSONRenderer
-from .serializers import (FollowingSerializer, ProfileSerializer,
-                          ProfileUpdateSerializer)
+from .serializers import FollowingSerializer, ProfileSerializer, ProfileUpdateSerializer
 
 
 class ProfileListAPIView(generics.ListAPIView):

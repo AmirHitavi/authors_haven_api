@@ -1,8 +1,10 @@
 from django.urls import path
 
-from .views import (ArticleListCreateAPIView,
-                    ArticleRetrieveUpdateDestroyAPIView,
-                    ClapCreateDestroyAPIView)
+from .views import (
+    ArticleListCreateAPIView,
+    ArticleRetrieveUpdateDestroyAPIView,
+    ClapCreateDestroyAPIView,
+)
 
 urlpatterns = [
     path("", ArticleListCreateAPIView.as_view(), name="article-list-create"),
