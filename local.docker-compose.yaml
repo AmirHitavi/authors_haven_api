@@ -57,6 +57,7 @@ services:
       - postgres
       - mailhog
       - redis
+      - es
     command: /start.sh
     networks:
       - authors_haven_network
@@ -117,6 +118,15 @@ services:
     depends_on:
       - redis
       - postgres
+    networks:
+      - authors_haven_network
+  
+  es:
+    image: elasticsearch:7.17.24
+    ports:
+      - "9200:9200"
+    environment:
+      - discovery.type=single-node
     networks:
       - authors_haven_network
 

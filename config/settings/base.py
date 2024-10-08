@@ -43,6 +43,8 @@ THIRD_PARTY_APPS = [
     "allauth.socialaccount",
     "dj_rest_auth",
     "dj_rest_auth.registration",
+    "django_elasticsearch_dsl",
+    "django_elasticsearch_dsl_drf",
 ]
 
 LOCAL_APPS = [
@@ -248,3 +250,5 @@ REST_AUTH = {
     "JWT_AUTH_REFRESH_COOKIE": "authors-refresh-token",
     "REGISTER_SERIALIZER": "core_apps.users.serializers.CustomRegistrationSerializer",
 }
+
+ELASTICSEARCH_DSL = {"default": {"hosts": "es:9200"}}

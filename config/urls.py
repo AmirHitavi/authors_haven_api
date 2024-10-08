@@ -69,6 +69,7 @@ urlpatterns = [
                     path("ratings/", include("core_apps.ratings.urls")),
                     path("bookmarks/", include("core_apps.bookmarks.urls")),
                     path("responses/", include("core_apps.responses.urls")),
+                    path("search/", include("core_apps.search.urls")),
                 ]
             )
         ),

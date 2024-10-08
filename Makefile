@@ -57,3 +57,9 @@ backups:
 
 status:
 	sudo docker ps
+
+es-create:
+	sudo docker-compose -f local.docker-compose.yaml exec api python manage.py search_index --create
+
+es-populate:
+	sudo docker-compose -f local.docker-compose.yaml exec api python manage.py search_index --populate
