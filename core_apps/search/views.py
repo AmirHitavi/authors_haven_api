@@ -9,8 +9,8 @@ from django_elasticsearch_dsl_drf.pagination import PageNumberPagination
 from django_elasticsearch_dsl_drf.viewsets import DocumentViewSet
 from rest_framework import permissions
 
-from .document import ArticleDocument
-from .serializers import ArticleDocumentSerializer
+from .document import ArticleDocument, ProfileDocument
+from .serializers import ArticleDocumentSerializer, ProfileDocumentSerializer
 
 # Create your views here.
 
@@ -43,3 +43,41 @@ class ArticleSearchView(DocumentViewSet):
     ordering_fields = {"created_at": "created_at"}
     # Specify default ordering
     ordering = ["created_at"]
+
+
+class ProfileSearchView(DocumentViewSet):
+    """The BookDocument View."""
+
+    document = ProfileDocument
+    serializer_class = ProfileDocumentSerializer
+    pagination_class = PageNumberPagination
+    lookup_field = "id"
+    permission_classes = [permissions.AllowAny]
+    filter_backends = [
+        DefaultOrderingFilterBackend,
+        FilteringFilterBackend,
+        IdsFilterBackend,
+        OrderingFilterBackend,
+        SearchFilterBackend,
+    ]
+    # Define search fields
+    search_fields = {
+        "user__first_name": "user.first_name",
+        "user__last_name": "user.last_name",
+    }
+    # Define filter fields
+    filter_fields = {
+        "user__first_name": "user.first_name",
+        "user__last_name": "user.last_name",
+        "gender": "gender",
+        "country": "country",
+        "city": "city",
+    }
+    # Define ordering fields
+    ordering_fields = {
+        "user__first_name": "user.first_name",
+        "user__last_name": "user.last_name",
+        "followers_count": "followers_count",
+    }
+    # Specify default ordering
+    ordering = ("user.first_name", "user__last_name", "user__date_joined")
