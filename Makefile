@@ -75,3 +75,9 @@ es-create:
 
 es-populate:
 	sudo docker-compose -f local.docker-compose.yaml exec api python manage.py search_index --populate
+
+pytest:
+	sudo docker-compose -f local.docker-compose.yaml run --rm api pytest
+
+pytest-cov:
+	sudo docker-compose -f local.docker-compose.yaml run --rm api pytest -p no:warnings  --cov=. --cov-report html

@@ -20,7 +20,7 @@ class CustomUserManager(BaseUserManager):
             validate_email(email)
             return True
         except ValidationError:
-            raise ValidationError(_("You must provide a valid email address."))
+            raise ValueError(_("You must provide a valid email address."))
 
     def create_user(self, *, first_name, last_name, email, password, **extra_fields):
         """
@@ -61,11 +61,6 @@ class CustomUserManager(BaseUserManager):
         extra_fields.setdefault("is_active", True)
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
-
-        if extra_fields.get("is_active") is not True:
-            raise ValueError(
-                _("Superusers must have 'is_active' attribute set to True.")
-            )
 
         if extra_fields.get("is_staff") is not True:
             raise ValueError(
@@ -122,3 +117,6 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
     @property
     def get_short_name(self):
         return f"{self.first_name.title()}"
+
+    def __str__(self):
+        return self.first_name

@@ -14,7 +14,7 @@ class UserSerializer(serializers.ModelSerializer):
     gender = serializers.CharField(source="profile.gender")
     country = CountryField(source="profile.country")
     city = serializers.CharField(source="profile.city")
-    profile_photo = serializers.ReadOnlyField(source="profile.profile_photo")
+    profile_photo = serializers.ReadOnlyField(source="profile.profile_photo.url")
 
     class Meta:
         model = User
