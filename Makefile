@@ -38,13 +38,25 @@ volume:
 	sudo docker volume inspect src_local_postgres_data
 
 flake8:
-	flake8
+	flake8 .
 
 black:
-	black .
+	black --exclude=migrations .
+
+black-check:
+	black --check --exclude=migrations  .
+
+black-diff:
+	black --diff --exclude=migrations .
 
 isort:
-	isort .
+	isort . --skip venv --skip migrations
+
+isort-check:
+	isort . --check-only --skip venv --skip migrations
+
+isort-diff:
+	isort . --diff --skip venv --skip migrations
 
 shell:
 	sudo docker-compose -f local.docker-compose.yaml exec api /bin/bash
