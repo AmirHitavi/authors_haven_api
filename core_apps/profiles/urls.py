@@ -4,7 +4,7 @@ from .serializers import FollowingSerializer
 from .views import (
     FollowAPIView,
     FollowerListAPIView,
-    FollowingAPIView,
+    FollowingListAPIView,
     ProfileDetailsAPIView,
     ProfileListAPIView,
     UnfollowAPIView,
@@ -20,7 +20,7 @@ urlpatterns = [
                 path("", ProfileDetailsAPIView.as_view(), name="my-profile"),
                 path("update/", UpdateProfileAPIView.as_view(), name="update-profile"),
                 path("followers/", FollowerListAPIView.as_view(), name="followers"),
-                path("following/", FollowingAPIView.as_view(), name="following"),
+                path("following/", FollowingListAPIView.as_view(), name="following"),
             ]
         ),
     ),

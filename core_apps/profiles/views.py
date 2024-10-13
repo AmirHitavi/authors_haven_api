@@ -31,7 +31,6 @@ class ProfileListAPIView(generics.ListAPIView):
 class ProfileDetailsAPIView(generics.RetrieveAPIView):
     serializer_class = ProfileSerializer
     renderer_classes = [ProfileJSONRenderer]
-    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         return Profile.objects.select_related("user")
@@ -43,7 +42,6 @@ class ProfileDetailsAPIView(generics.RetrieveAPIView):
 
 class UpdateProfileAPIView(generics.RetrieveAPIView):
     serializer_class = ProfileUpdateSerializer
-    permission_classes = [IsAuthenticated]
     parser_classes = [MultiPartParser]
     renderer_classes = [ProfileJSONRenderer]
 
@@ -59,7 +57,6 @@ class UpdateProfileAPIView(generics.RetrieveAPIView):
 
 
 class FollowerListAPIView(APIView):
-    permission_classes = [IsAuthenticated]
 
     def get(self, request, format=None):
         try:
@@ -76,15 +73,13 @@ class FollowerListAPIView(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-class FollowingAPIView(APIView):
-    permission_classes = [IsAuthenticated]
+class FollowingListAPIView(APIView):
 
     def get(self, request, format=None):
         try:
             profile = Profile.objects.get(user__id=request.user.id)
             following_profiles = profile.following.all()
-            following_users = [profile.user for profile in following_profiles]
-            serializer = FollowingSerializer(following_users, many=True)
+            serializer = FollowingSerializer(following_profiles, many=True)
             formatted_response = {
                 "status_code": status.HTTP_200_OK,
                 "following_counts": following_profiles.count(),
@@ -144,7 +139,7 @@ class UnfollowAPIView(APIView):
             follower_profile.unfollow(following_profile)
 
             # Send email to notify about new follower
-            subject = "A new user follows you"
+            subject = "A new user unfollows you"
             message = (
                 f"Hi there, {following_profile.user.first_name}!!, the user {follower_profile.user.first_name} "
                 f"{follower_profile.user.last_name} now unfollows you."
