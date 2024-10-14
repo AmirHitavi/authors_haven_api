@@ -6,18 +6,19 @@ from core_apps.profiles.tests.factories import ProfileFactory
 
 @pytest.mark.django_db
 def test_create_profile(user_profile):
-    assert user_profile.user
-    assert user_profile.phone_number
-    assert user_profile.about_me
+    assert user_profile.user is not None
+    assert user_profile.phone_number is not None
+    assert user_profile.about_me is not None
     assert user_profile.gender in [
         Profile.Gender.MALE,
         Profile.Gender.FEMALE,
         Profile.Gender.OTHER,
     ]
-    assert user_profile.country
-    assert user_profile.city
-    assert user_profile.profile_photo
-    assert user_profile.twitter_handle
+    assert user_profile.gender is not None
+    assert user_profile.country is not None
+    assert user_profile.city is not None
+    assert user_profile.profile_photo is not None
+    assert user_profile.twitter_handle is not None
 
 
 @pytest.mark.django_db

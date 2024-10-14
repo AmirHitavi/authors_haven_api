@@ -1,6 +1,11 @@
 import re
 from math import ceil
 
+# CONSTANTS for read engine
+WORDS_PER_MINUTE = 250
+SECONDS_PER_IMAGE = 10
+SECONDS_PER_TAG = 2
+
 
 class ArticleReadTimeEngine:
     @staticmethod
@@ -10,7 +15,10 @@ class ArticleReadTimeEngine:
 
     @staticmethod
     def estimate_reading_time(
-        article, words_per_minute=250, seconds_per_image=10, seconds_per_tag=2
+        article,
+        words_per_minute=WORDS_PER_MINUTE,
+        seconds_per_image=SECONDS_PER_IMAGE,
+        seconds_per_tag=SECONDS_PER_TAG,
     ):
         words_count_title = ArticleReadTimeEngine.word_count(article.title)
         words_count_body = ArticleReadTimeEngine.word_count(article.body)

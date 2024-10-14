@@ -45,7 +45,7 @@ class Article(BaseModel):
     clap = models.ManyToManyField(User, through=Clap, related_name="clapped_articles")
 
     def __str__(self):
-        return f"{self.title} Article"
+        return f"{self.title.title()} Article"
 
     @property
     def estimated_reading_time(self):
@@ -84,9 +84,9 @@ class ArticleView(BaseModel):
 
     def __str__(self):
         if self.user:
-            return f"{self.article.title} viewed by {self.user.first_name.title()} {self.user.last_name.title()}"
+            return f"{self.article.title.title()} viewed by {self.user.first_name.title()} {self.user.last_name.title()}"
         else:
-            return f"{self.article.title} viewed by anonymous user"
+            return f"{self.article.title.title()} viewed by anonymous user"
 
     @classmethod
     def record(cls, article, user, viewer_ip):

@@ -30,8 +30,8 @@ class ArticleSerializer(serializers.ModelSerializer):
     banner_image = serializers.SerializerMethodField()
     estimated_reading_time = serializers.ReadOnlyField()
     tags = TagListField()
-    views = serializers.SerializerMethodField()
-    average_rating = serializers.ReadOnlyField()
+    views_count = serializers.SerializerMethodField()
+    average_rating = serializers.SerializerMethodField(read_only=True)
     bookmarks = serializers.SerializerMethodField()
     bookmarks_count = serializers.SerializerMethodField()
     responses = serializers.SerializerMethodField()
@@ -43,7 +43,7 @@ class ArticleSerializer(serializers.ModelSerializer):
     def get_banner_image(self, obj):
         return obj.banner_image.url
 
-    def get_views(self, obj):
+    def get_views_count(self, obj):
         return ArticleView.objects.filter(article=obj).count()
 
     def get_average_rating(self, obj):
@@ -92,7 +92,7 @@ class ArticleSerializer(serializers.ModelSerializer):
             "author_info",
             "banner_image",
             "tags",
-            "views",
+            "views_count",
             "created_at",
             "updated_at",
         ]
@@ -105,7 +105,6 @@ class ArticleSerializer(serializers.ModelSerializer):
         return article
 
     def update(self, instance, validated_data):
-        instance.author = validated_data.get("author", instance.author)
         instance.title = validated_data.get("title", instance.title)
         instance.body = validated_data.get("body", instance.body)
         instance.description = validated_data.get("description", instance.description)
@@ -115,7 +114,7 @@ class ArticleSerializer(serializers.ModelSerializer):
         instance.updated_at = validated_data.get("updated_at", instance.updated_at)
 
         if "tags" in validated_data:
-            instance.tags.set(instance["tags"])
+            instance.tags.set(validated_data["tags"])
 
         instance.save()
         return instance

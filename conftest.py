@@ -4,11 +4,21 @@ from django.contrib.sessions.middleware import SessionMiddleware
 from django.test import RequestFactory
 from pytest_factoryboy import register
 
+from core_apps.articles.tests.factories import (
+    ArticleFactory,
+    ArticleViewFactory,
+    ClapFactory,
+)
 from core_apps.profiles.tests.factories import ProfileFactory
+from core_apps.ratings.tests.factories import RatingFactory
 from core_apps.users.tests.factories import UserFactory
 
 register(UserFactory)
 register(ProfileFactory)
+register(ArticleFactory)
+register(ArticleViewFactory)
+register(ClapFactory)
+register(RatingFactory)
 
 
 @pytest.fixture
@@ -42,3 +52,9 @@ def mock_request():
 def user_profile(db, profile_factory):
     new_profile = profile_factory()
     return new_profile
+
+
+@pytest.fixture
+def user_article(db, article_factory):
+    new_article = article_factory()
+    return new_article
